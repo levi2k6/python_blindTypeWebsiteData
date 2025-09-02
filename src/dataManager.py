@@ -15,8 +15,8 @@ def postData(text):
 
     cursor = conn.cursor()
 
-    sql = "INSERT INTO blind_type_db ( type, difficulty, text) VALUES(%s, %s, %s)";
-    values = ("sentence", "easy", text);
+    sql = "INSERT INTO sentence_challenges( difficulty, text) VALUES( %s, %s)";
+    values = ("easy", text);
     cursor.execute(sql, values)
     conn.commit();
 
