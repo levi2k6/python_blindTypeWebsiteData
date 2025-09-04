@@ -2,6 +2,8 @@ import initialize
 import json
 import mysql.connector
 import textReader
+
+import uuid
 import os
 
 with open("data/dbConfig.json") as file:
@@ -18,11 +20,10 @@ def postData(text):
     cursor = conn.cursor()
 
     fileName = text.replace(" ","_") 
-    audioPath = os.path.expanduser(f"{initialize.locations['mp3Location']}{fileName}.mp3")
-    textReader.generateAudioFile(text, audioPath);
+    textReader.generateAudioFile(text, fileName);
 
-    sql = "INSERT INTO sentence_challenges( difficulty, text, audio_path) VALUES( %s, %s, %s)";
-    values = ("easy", text, audioPath);
+    sql = "INSERT INTO sentence_challenges( difficulty, text, audio_name) VALUES( %s, %s, %s)";
+    values = ("easy", text, fileName);
     cursor.execute(sql, values)
     conn.commit();
 
