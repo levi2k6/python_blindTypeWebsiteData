@@ -6,6 +6,8 @@ import textReader
 import uuid
 import os
 
+import dataManager
+
 with open("data/dbConfig.json") as file:
     config = json.load(file)
 
@@ -39,8 +41,8 @@ def isTableEmpty(type: str):
 
     return count == 0;
 
-
 def postData(text, type):
+
     conn = getConn()
     cursor = conn.cursor()
 
@@ -49,26 +51,42 @@ def postData(text, type):
 
     table = typeToTable(type); 
 
-    sql = f"INSERT INTO {table}( difficulty, text, audio_name) VALUES( %s, %s, %s)";
-    values = ("easy", text, fileName);
+    sql = ""
+    values = ()
+
+    if type == "sentence":
+        sql = f"INSERT INTO {table}( difficulty, text, audio_name) VALUES( %s, %s, %s)";
+        values = ("easy", text, fileName);
+    elif type == "word":
+        sql = f"INSERT INTO {table}( difficulty, text) VALUES( %s, %s)";
+        values = ("easy", text);
+    elif type == "letter":
+        sql = f"INSERT INTO {table}( difficulty, text) VALUES( %s, %s)";
+        values = (text);
+
     cursor.execute(sql, values)
     conn.commit();
 
     cursor.close()
     conn.close()
+    print(f"{type} table has been successfully added data into it.")
+
 
 def deleteData(type):
-    conn = getConn()
-    cursor = conn.cursor()
+    if not dataManager.isTableEmpty(type):
+        conn = getConn()
+        cursor = conn.cursor()
 
-    table = typeToTable(type);
+        table = typeToTable(type);
 
-    sql = f"TRUNCATE TABLE {table}";
-    cursor.execute(sql);
-    conn.commit();
+        sql = f"TRUNCATE TABLE {table}";
+        cursor.execute(sql);
+        conn.commit();
+
+        cursor.close()
+        conn.close()
+        print(f"{type} table successfully deleted.")
 
     textReader.deleteGeneratedAudioFiles(type);
-
-
 
 

@@ -6,21 +6,6 @@ import test
 import os
 import json
 
-jsonData = {};
-
-def loadJson():
-    global jsonData
-
-    path = os.path.expanduser(initialize.locations["sentenceLocation"]);
-
-    with open(path) as file:
-        data = json.load(file)
-        if not data:
-            print("data is empty");
-        # else: 
-        #     print(data["sentences"]);
-        jsonData = data
-
 def main():
     userInput = input("Enter action: ");
 
@@ -51,22 +36,23 @@ def main():
         main();
 
 def addData(type):
+
     if not dataManager.isTableEmpty(type):
-        print(f"{type} all ready has data.")
-        return
+       print(f"{type} table already has data in it.")
+       return
 
-    for datum in jsonData["sentences"]:
-        print(datum)
-        dataManager.postData(datum, type)
-
+    if type == "sentence": 
+        for datum in initialize.sentenceJson:
+            print(datum)
+            dataManager.postData(datum, type)
+    if type == "word": 
+        for datum in initialize.wordJson:
+            print(datum)
+            dataManager.postData(datum, type)
+   
 def deleteData(type):
-    if dataManager.isTableEmpty(type):
-        print(f"{type} all ready is already empty.")
-        return
     dataManager.deleteData(type);
-    
 
 initialize.start()
-loadJson()
 main()
 
