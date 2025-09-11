@@ -22,12 +22,16 @@ def main():
     elif userInput == "deleteAll":
         deleteData("sentence") 
         deleteData("word")
+        main();
     elif userInput == "deleteSentence":
         deleteData("sentence");
-    elif userInput == "seleteWord":
+        main();
+    elif userInput == "deleteWord":
         deleteData("word")
+        main();
     elif userInput == "exit":
         print("Program off")
+        main();
     elif userInput == "test":
         test.test();
         main();

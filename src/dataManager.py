@@ -47,6 +47,7 @@ def postData(text, type):
     cursor = conn.cursor()
 
     fileName = text.replace(" ","_") 
+
     textReader.generateAudioFiles(text, fileName, type);
 
     table = typeToTable(type); 
