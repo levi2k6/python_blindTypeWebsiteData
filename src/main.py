@@ -10,34 +10,41 @@ def main():
     userInput = input("Enter action: ");
 
     if userInput == "addAll":
-        addData("sentence");
-        addData("word");
-        main();
+        addData("sentence")
+        addData("word")
+        addData("letter")
+        main()
     elif userInput == "addSentence":
-        addData("sentence");
-        main();
+        addData("sentence")
+        main()
     elif userInput == "addWord":
-        addData("word");
-        main();
+        addData("word")
+        main()
+    elif userInput == "addLetter":
+        addData("letter")
+        main()
     elif userInput == "deleteAll":
         deleteData("sentence") 
         deleteData("word")
-        main();
+        deleteData("letter")
+        main()
     elif userInput == "deleteSentence":
-        deleteData("sentence");
-        main();
+        deleteData("sentence")
+        main()
     elif userInput == "deleteWord":
         deleteData("word")
-        main();
+        main()
+    elif userInput == "deleteLetter":
+        deleteData("letter")
+        main()
     elif userInput == "exit":
         print("Program off")
-        main();
     elif userInput == "test":
-        test.test();
-        main();
+        test.test()
+        main()
     else:
         print("Invalid input");
-        main();
+        main()
 
 def addData(type):
 
@@ -53,6 +60,12 @@ def addData(type):
         for datum in initialize.wordJson:
             print(datum)
             dataManager.postData(datum, type)
+    if type == "letter":
+        for datum in initialize.letterJson:
+            print(datum)
+            dataManager.postData(datum, type)
+
+
    
 def deleteData(type):
     dataManager.deleteData(type);

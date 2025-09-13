@@ -3,9 +3,9 @@ import json
 
 locations = {}
 
+letterJson = [];
 wordJson = [];
 sentenceJson = [];
-
 
 def start():
     global locations
@@ -21,8 +21,20 @@ def start():
     loadJson()
 
 def loadJson():
+    global letterJson;
     global wordJson;
     global sentenceJson;
+
+    letterPath = os.path.expanduser(locations["letterLocation"])
+    print("letterPath: ", letterPath)
+
+    with open(letterPath) as file:
+        data = json.load(file)
+        if not data:
+            print("data is empty");
+
+        letterJson = data;
+
 
     wordPath = os.path.expanduser(locations["wordLocation"])
     print("wordPath: ", wordPath)
@@ -35,6 +47,8 @@ def loadJson():
         wordJson = data;
 
     sentencePath = os.path.expanduser(locations["sentenceLocation"])
+    print("sentencePath: ", sentencePath)
+
     with open(sentencePath) as file:
         data = json.load(file)
         if not data:

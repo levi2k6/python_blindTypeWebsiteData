@@ -22,9 +22,11 @@ def getConn():
 
 def typeToTable(type):
     if type == "sentence":
-        return "sentence_challenges"; 
+        return "sentence_challenges"
     elif type == "word":
-        return "word_challenges"; 
+        return "word_challenges"
+    elif type == "letter":
+        return "letter_challenges"
 
 
 def isTableEmpty(type: str):
@@ -62,8 +64,8 @@ def postData(text, type):
         sql = f"INSERT INTO {table}( difficulty, text) VALUES( %s, %s)";
         values = ("easy", text);
     elif type == "letter":
-        sql = f"INSERT INTO {table}( difficulty, text) VALUES( %s, %s)";
-        values = (text);
+        sql = f"INSERT INTO {table}(text) VALUES( %s )";
+        values = (text,);
 
     cursor.execute(sql, values)
     conn.commit();
@@ -89,5 +91,3 @@ def deleteData(type):
         print(f"{type} table successfully deleted.")
 
     textReader.deleteGeneratedAudioFiles(type);
-
-
