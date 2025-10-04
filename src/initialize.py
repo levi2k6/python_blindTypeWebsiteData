@@ -16,8 +16,8 @@ def start():
             return;
 
         locations = data;
+        print("locations: ", locations)
         print("Initialization success.")
-
     loadJson()
 
 def loadJson():
@@ -56,3 +56,5 @@ def loadJson():
 
         sentenceJson = data;
 
+
+start()

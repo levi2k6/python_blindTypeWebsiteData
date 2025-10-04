@@ -7,7 +7,7 @@ import shutil
 import json
 
 ttsSentence = TTS(model_name="tts_models/en/ljspeech/tacotron2-DDC", progress_bar=True, gpu=False)
-ttsWord = TTS(model_name="tts_models/en/ljspeech/vits--neon", progress_bar=True, gpu=False)
+ttsWord = TTS(model_name="tts_models/en/ljspeech/tacotron2-DDC_ph", progress_bar=True, gpu=False)
 
 def generateAudioFiles(text, fileName, type):
     audioPath = f"{initialize.locations['mp3Location']}/{type}/{fileName}.mp3"
@@ -23,6 +23,21 @@ def generateAudioFiles(text, fileName, type):
         ttsWord.tts_to_file(text=text, file_path=audioPath, speed=0.1)
         print("letter model used")
 
+def regenerateAudioFile(text, fileName, type):
+    audioPath = f"{initialize.locations['mp3Location']}/{type}/{fileName}.mp3" 
+    if(not audioPath):
+        print("audio file not found")
+        return;
+    os.remove(audioPath)
+    if(type == "sentence"):
+        ttsSentence.tts_to_file(text=text, file_path=audioPath, speed=0.2)
+        print("sentence regenerated")
+    elif(type == "word"):
+        ttsWord.tts_to_file(text=text, file_path=audioPath, speed=0.1)
+        print("word regenerated")
+    elif(type == "letter"):
+        ttsWord.tts_to_file(text=text, file_path=audioPath, speed=0.1)
+        print("letter regenerated")
 
 def deleteGeneratedAudioFiles(type):
     try:
@@ -34,5 +49,3 @@ def deleteGeneratedAudioFiles(type):
         print("No permission to delete")
     except OSError as e:
         print(f"{type} folder OS error: {e}")
-
-

@@ -1,10 +1,8 @@
 
 import initialize
 import dataManager
+import textReader
 import test
-
-import os
-import json
 
 def main():
     userInput = input("Enter action: ");
@@ -37,6 +35,18 @@ def main():
     elif userInput == "deleteLetter":
         deleteData("letter")
         main()
+    elif userInput == "regenSentence":
+        userInput = input("find sentence: ")
+        regenAudio("sentence", userInput)
+        main()
+    elif userInput == "regenWord":
+        userInput = input("find word: ")
+        regenAudio("word", userInput)
+        main()
+    elif userInput == "regenLetter":
+        userInput = input("find letter: ")
+        regenAudio("letter", userInput)
+        main()
     elif userInput == "exit":
         print("Program off")
     elif userInput == "test":
@@ -47,7 +57,6 @@ def main():
         main()
 
 def addData(type):
-
     if not dataManager.isTableEmpty(type):
        print(f"{type} table already has data in it.")
        return
@@ -66,10 +75,29 @@ def addData(type):
             dataManager.postData(datum, type)
 
 
+def regenAudio(type, input):
+    print("regenAudio()")
+    if type == "sentence": 
+        for datum in initialize.sentenceJson:
+            if datum == input:
+                fileName = datum.replace(" ","_") 
+                textReader.regenerateAudioFile(input, fileName, "sentence");
+    elif type == "word": 
+        for datum in initialize.wordJson:
+            if datum == input:
+                fileName = datum.replace(" ","_") 
+                textReader.regenerateAudioFile(input, fileName, "word");
+    elif type == "letter":
+        for datum in initialize.letterJson:
+            if datum == input:
+                fileName = datum.replace(" ","_") 
+                textReader.regenerateAudioFile(input, fileName, "letter");
+    else:
+        print("audio file not found in ", type);
+
    
 def deleteData(type):
     dataManager.deleteData(type);
 
-initialize.start()
 main()
 
