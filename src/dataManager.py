@@ -45,6 +45,10 @@ def isTableEmpty(type: str):
 
 def postData(text, type):
 
+    if getData(text, type):
+        print("Challenge already existed.")
+        return
+
     conn = getConn()
     cursor = conn.cursor()
 
@@ -58,14 +62,14 @@ def postData(text, type):
     values = ()
 
     if type == "sentence":
-        sql = f"INSERT INTO {table}( difficulty, text, audio_name) VALUES( %s, %s, %s)";
-        values = ("easy", text, fileName);
+        sql = f"INSERT INTO {table}( difficulty, text, audio_name) VALUES( %s, %s, %s)"
+        values = ("easy", text, fileName)
     elif type == "word":
-        sql = f"INSERT INTO {table}( difficulty, text) VALUES( %s, %s)";
-        values = ("easy", text);
+        sql = f"INSERT INTO {table}( difficulty, text) VALUES( %s, %s)"
+        values = ("easy", text)
     elif type == "letter":
-        sql = f"INSERT INTO {table}(text) VALUES( %s )";
-        values = (text,);
+        sql = f"INSERT INTO {table}(text) VALUES( %s )"
+        values = (text,)
 
     cursor.execute(sql, values)
     conn.commit();
@@ -73,6 +77,16 @@ def postData(text, type):
     cursor.close()
     conn.close()
     print(f"{type} table has been successfully added data into it.")
+
+def getData(text, type):
+    conn = getConn()
+    cursor = conn.cursor()
+    
+    table = typeToTable(type)
+    sql = f"SELECT * FROM {table} WHERE text = %s" 
+    cursor.execute(sql, (text,))
+    challenge = cursor.fetchall()
+    return challenge 
 
 
 def deleteData(type):
@@ -91,3 +105,11 @@ def deleteData(type):
         print(f"{type} table successfully deleted.")
 
     textReader.deleteGeneratedAudioFiles(type);
+
+def test(text, type):
+    if getData(text, type):
+        print("Challenge already existed.")
+        return
+    print("Challenge not found")
+
+

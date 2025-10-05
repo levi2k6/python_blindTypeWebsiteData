@@ -50,7 +50,8 @@ def main():
     elif userInput == "exit":
         print("Program off")
     elif userInput == "test":
-        test.test()
+        userInput = input("find Challenge: ")
+        dataManager.test(userInput, "letter");
         main()
     else:
         print("Invalid input");

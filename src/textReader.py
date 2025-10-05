@@ -6,7 +6,7 @@ import os
 import shutil
 import json
 
-ttsSentence = TTS(model_name="tts_models/en/ljspeech/tacotron2-DDC", progress_bar=True, gpu=False)
+ttsSentence = TTS(model_name="tts_models/en/ljspeech/tacotron2-DDC_ph", progress_bar=True, gpu=False)
 ttsWord = TTS(model_name="tts_models/en/ljspeech/tacotron2-DDC_ph", progress_bar=True, gpu=False)
 
 def generateAudioFiles(text, fileName, type):
