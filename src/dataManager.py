@@ -1,7 +1,7 @@
 import initialize
 import json
 import mysql.connector
-import textReader
+import AudioManager
 
 import uuid
 import os
@@ -45,16 +45,12 @@ def isTableEmpty(type: str):
 
 def postData(text, type):
 
-    if getData(text, type):
-        print("Challenge already existed.")
-        return
-
     conn = getConn()
     cursor = conn.cursor()
 
     fileName = text.replace(" ","_") 
 
-    textReader.generateAudioFiles(text, fileName, type);
+    AudioManager.generateAudioFiles(text, fileName, type);
 
     table = typeToTable(type); 
 
@@ -76,7 +72,6 @@ def postData(text, type):
 
     cursor.close()
     conn.close()
-    print(f"{type} table has been successfully added data into it.")
 
 def getData(text, type):
     conn = getConn()
@@ -90,21 +85,19 @@ def getData(text, type):
 
 
 def deleteData(type):
-    if not dataManager.isTableEmpty(type):
-        conn = getConn()
-        cursor = conn.cursor()
+    conn = getConn()
+    cursor = conn.cursor()
 
-        table = typeToTable(type);
+    table = typeToTable(type);
 
-        sql = f"TRUNCATE TABLE {table}";
-        cursor.execute(sql);
-        conn.commit();
+    sql = f"TRUNCATE TABLE {table}";
+    cursor.execute(sql);
+    conn.commit();
 
-        cursor.close()
-        conn.close()
-        print(f"{type} table successfully deleted.")
+    cursor.close()
+    conn.close()
+    print(f"{type} table successfully deleted.")
 
-    textReader.deleteGeneratedAudioFiles(type);
 
 def test(text, type):
     if getData(text, type):
