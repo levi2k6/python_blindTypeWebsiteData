@@ -1,21 +1,19 @@
 from TTS.api import TTS
-from audio_manager.AudioManager import generateAudioFiles
 import initialize
 from audio_manager.Audio import Audio
 import os
 import shutil
-
+from audio_manager.AudioTTS import tts 
 
 class WordAudio(Audio):
-    tts = TTS(model_name="tts_models/en/ljspeech/tacotron2-DDC_ph", progress_bar=True, gpu=False)
 
     def generateAudioFile(self, text):
 
         fileName = text.replace(" ","_") 
-        audioPath = f"{initialize.locations['mp3Location']}/{"word"}/{fileName}.mp3"
-        os.makedirs(f"{initialize.locations['mp3Location']}/{"word"}", exist_ok=True)
+        audioPath = f"{initialize.locations['mp3Location']}/word/{fileName}.mp3"
+        os.makedirs(f"{initialize.locations['mp3Location']}/word", exist_ok=True)
 
-        self.tts.tts_to_file(text=text, file_path=audioPath, speed=0.1)
+        tts.tts_to_file(text=text, file_path=audioPath, speed=0.1)
         print("Successfully create sentence model.");
 
 
@@ -32,7 +30,7 @@ class WordAudio(Audio):
 
 
     def regenerateAudioFile(self, fileName):
-        audioPath = f"{initialize.locations['mp3Location']}/{"word"}/{fileName}.mp3" 
+        audioPath = f"{initialize.locations['mp3Location']}/word/{fileName}.mp3" 
 
         if(not audioPath):
             print("audio file not found")

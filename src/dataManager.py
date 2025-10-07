@@ -1,12 +1,8 @@
 import initialize
 import json
 import mysql.connector
-import AudioManager
+from audio_manager.AudioManager import AudioManager
 
-import uuid
-import os
-
-import dataManager
 
 with open("data/dbConfig.json") as file:
     config = json.load(file)

@@ -1,26 +1,42 @@
+from db import dbUtils
 import initialize
-from ChallengeStrategy import ChallengeStrategy
-import dataManager
-import AudioManager
+from automation.AutomationStrategy import AutomationStrategy 
 
-class LetterAutomation(ChallengeStrategy):
+from db.DbManager import DbManager
+from db import dbUtils
+from audio_manager.AudioManager import AudioManager 
+
+class LetterAutomation(AutomationStrategy):
+
+    def __init__(self, audioManager: AudioManager, dbManager: DbManager):
+        self.audioManager = audioManager 
+        self.dbManager = dbManager
+        
 
     def addAllChallengeDb(self):
-        for datum in initialize.sentenceJson:
-            if dataManager.getData(datum, type):
-                print("Challenge already existed.")
+        for datum in initialize.letterJson:
+            if not self.dbManager.getData(datum):
+                self.dbManager.setCurrentDbStrategy("letter");
+                self.dbManager.postData(datum);
+
+                self.audioManager.setCurrentAudioFile("letter");
+                self.audioManager.generateAudioFile(datum);
+
+                print("Sentence table has been successfully added data into it.")
+            else:
+                print("letter_challenges already has data")
                 return
-
-            dataManager.postData(datum, "sentence");
-            print("Sentence table has been successfully added data into it.")
+            
         pass
-
 
     def deleteAllChallengeDb(self):
-        if not dataManager.isTableEmpty("sentence"):
-            dataManager.deleteData("sentence");
-        AudioManager.deleteGeneratedAudioFiles("sentence");
+        if not dbUtils.isTableEmpty("letter"):
+            self.dbManager.setCurrentDbStrategy("letter")
+            self.dbManager.deleteData();
+        else:
+            print("letter_challenges table is already empty")
+
+        self.audioManager.setCurrentAudioFile("letter");
+        self.audioManager.deleteAudioFile();
         pass
-
-
 
