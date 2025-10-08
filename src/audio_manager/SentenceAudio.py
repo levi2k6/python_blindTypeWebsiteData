@@ -14,6 +14,7 @@ class SentenceAudio(Audio):
         audioPath = f"{initialize.locations['mp3Location']}/sentence/{fileName}.mp3"
         os.makedirs(f"{initialize.locations['mp3Location']}/sentence", exist_ok=True)
 
+        text += "."
         tts.tts_to_file(text=text, file_path=audioPath, speed=0.2)
         print("Successfully create sentence model.");
 

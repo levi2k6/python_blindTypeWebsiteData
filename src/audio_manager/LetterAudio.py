@@ -13,6 +13,7 @@ class LetterAudio(Audio):
         audioPath = f"{initialize.locations['mp3Location']}/letter/{fileName}.mp3"
         os.makedirs(f"{initialize.locations['mp3Location']}/letter", exist_ok=True)
 
+        text += "."
         tts.tts_to_file(text=text, file_path=audioPath, speed=0.1)
         print("Successfully create sentence model.");
 
